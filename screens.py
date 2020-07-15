@@ -1,8 +1,11 @@
 import pygame
+from settings import *
+from sprites import *
 
 class SplashScreen():
-  def __init__(self):
+  def __init__(self, main):
     self.is_playing = True
+    self.main = main
 
   def new(self):
     pass
@@ -20,27 +23,41 @@ class SplashScreen():
     pass
 
 class Game():
-  def __init__(self):
+  def __init__(self, main):
     self.is_playing = True
+    self.main = main
 
   def new(self):
-    pass
+    self.is_playing = True
+    self.all_sprites = pygame.sprite.Group()
+    self.playerObj = Player((self.all_sprites))
+    self.run()
 
   def run(self):
-    pass
+    while self.is_playing:
+      self.eventHandler()
+      self.update()
+      self.draw()
+      self.main.clock.tick(FPS)
 
   def eventHandler(self):
-    pass
+    for e in pygame.event.get():
+      if e.type == pygame.QUIT:
+        self.main.is_running = False
+        self.is_playing = False
 
   def update(self):
-    pass
+    self.all_sprites.update()
 
   def draw(self):
-    pass
+    self.main.screen.fill(BLACK)
+    self.all_sprites.draw(self.main.screen)
+    pygame.display.flip()
 
 class GameOver():
-  def __init__(self):
+  def __init__(self, main):
     self.is_playing = True
+    self.main = main
 
   def new(self):
     pass
