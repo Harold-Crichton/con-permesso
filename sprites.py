@@ -8,8 +8,22 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.Surface((20,40))
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
-        self.pos = vec(WIDTH / 2, HEIGHT - 50)
+        self.pos = vec(WIDTH / 2, HEIGHT - 25)
         self.rect.midbottom = self.pos
+    
+    def update(self):
+        self.speedx = 0
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.speedx = -5  
+        elif keys[pygame.K_RIGHT]:
+            self.speedx = 5
+        self.rect.x += self.speedx
+        if(self.rect.left < 0):
+            self.rect.left = 0
+        elif (self.rect.right > WIDTH):
+            self.rect.right = WIDTH
+
 
 class EnemyPipe(pygame.sprite.Sprite):
     def __init__(self, groups):
@@ -29,3 +43,11 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.pos = vec(x, y)
         self.rect.center = self.pos
+
+class EndLine(pygame.sprite.Sprite):
+    def __init__(self, groups):
+        super().__init__(groups)
+        self.image = pygame.Surface((400,10))
+        self.image.fill(BLUE)
+        self.rect = self.image.get_rect()
+        self.rect.center = (200, HEIGHT - 20)
