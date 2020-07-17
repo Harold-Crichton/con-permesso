@@ -1,9 +1,10 @@
 import pygame
 from os import path
 
-HEIGHT = 400
-WIDTH = 400
+HEIGHT = 800
+WIDTH = 800
 FPS = 60
+TITLE = "Con Permesso"
 
 # Source Folders
 TEXTURE_FOLDER = path.join(path.dirname(__file__), "src", "textures")

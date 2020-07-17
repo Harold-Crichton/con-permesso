@@ -6,6 +6,7 @@ class Main():
     def __init__(self):
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
+        pygame.display.set_caption(TITLE)
         self.is_running = True
         self.run()
 

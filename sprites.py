@@ -47,7 +47,7 @@ class Bullet(pygame.sprite.Sprite):
 class EndLine(pygame.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
-        self.image = pygame.Surface((400,10))
+        self.image = pygame.Surface((WIDTH,10))
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
-        self.rect.center = (200, HEIGHT - 20)
+        self.rect.center = (WIDTH / 2, HEIGHT - 20)
