@@ -3,12 +3,12 @@ from os import path
 
 HEIGHT = 800
 WIDTH = 800
-FPS = 60
+FPS = 30
 TITLE = "Con Permesso"
 
 # Source Folders
 TEXTURE_FOLDER = path.join(path.dirname(__file__), "src", "textures")
-SOUNDS_FOLDER = path.join(path.dirname(__file__), "sounds")
+SOUNDS_FOLDER = path.join(path.dirname(__file__), "src", "sounds")
 BACKGROUNDS_FOLDER = path.join(TEXTURE_FOLDER, "backgrounds")
 BOSSES_FOLDER = path.join(TEXTURE_FOLDER, "bosses")
 PIPES_FOLDER = path.join(TEXTURE_FOLDER, "pipes")

@@ -1,4 +1,6 @@
 import pygame
+from os import path
+from settings import *
 
 class Text(pygame.sprite.Sprite):
     def __init__(self, msg, color, size, x ,y, groups, font):
@@ -10,3 +12,11 @@ class Text(pygame.sprite.Sprite):
         self.image = font.render(msg, False, color)
         self.rect = self.image.get_rect()
         self.rect.lefttop = (x, y)
+
+class Music():
+    def __init__(self, name):
+        self.name = path.join(SOUNDS_FOLDER, name)
+        pygame.mixer.init()
+        pygame.mixer.music.load(self.name)
+        pygame.mixer.music.play(0)
+        

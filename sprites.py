@@ -10,19 +10,33 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.pos = vec(WIDTH / 2, HEIGHT - 25)
         self.rect.midbottom = self.pos
+
+        # Constants
+        self.SPEED = 2
+        self.FRICTION = -0.12
+
+        self.acc = vec(0,0)
+        self.vel = vec(0,0)
     
     def update(self):
-        self.speedx = 0
+        self.acc = vec(0,0)
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            self.speedx = -5  
-        elif keys[pygame.K_RIGHT]:
-            self.speedx = 5
-        self.rect.x += self.speedx
-        if(self.rect.left < 0):
-            self.rect.left = 0
-        elif (self.rect.right > WIDTH):
-            self.rect.right = WIDTH
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+            self.acc.x = -self.SPEED
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+            self.acc.x = self.SPEED
+
+        self.acc += self.vel * self.FRICTION
+        self.vel += self.acc
+        self.pos += self.vel + self.acc / 2
+        
+        if self.pos.x < self.rect.width / 2:
+            self.pos.x = self.rect.width / 2
+
+        if self.pos.x > WIDTH - self.rect.width / 2:
+            self.pos.x = WIDTH - self.rect.width / 2
+        
+        self.rect.midbottom = self.pos
 
 
 class EnemyPipe(pygame.sprite.Sprite):

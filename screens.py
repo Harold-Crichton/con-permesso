@@ -2,6 +2,7 @@ import pygame
 from settings import *
 from sprites import *
 from os import path
+from utils import *
 
 class SplashScreen():
   def __init__(self, main):
@@ -40,6 +41,9 @@ class SplashScreen():
         self.backgroundIndex += 1
         if self.backgroundIndex == len(self.BACKGROUND_FRAMES):
           self.backgroundIndex = 0
+      elif e.type == pygame.KEYDOWN:
+        if e.key == pygame.K_SPACE:
+          self.is_playing = False
 
   def update(self):
     self.all_sprites.update()
@@ -58,8 +62,9 @@ class Game():
     self.is_playing = True
     self.all_sprites = pygame.sprite.Group()
     self.playerObj = Player((self.all_sprites))
-    self.emndLineObj = EndLine((self.all_sprites))
-
+    self.endLineObj = EndLine((self.all_sprites))
+    self.musicObj = Music("music1.ogg")
+    
     # Set backgrounds
     n_backgrounds = 3
     self.BACKGROUND_FRAMES = []
