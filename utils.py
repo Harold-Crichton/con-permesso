@@ -7,11 +7,11 @@ class Text(pygame.sprite.Sprite):
         super().__init__(groups)
         self.update_text( msg, color, size, x ,y, groups, font)
         
-    def update_text(self, msg, color, size, x ,y, groups, font):
-        self.font = pygame.font.Font(font, size)
-        self.image = font.render(msg, False, color)
+    def update_text(self, msg, color, size, x ,y, groups, fontName):
+        self.font = pygame.font.Font(fontName, size)
+        self.image = self.font.render(msg, False, color)
         self.rect = self.image.get_rect()
-        self.rect.lefttop = (x, y)
+        self.rect.midtop = (x, y)
 
 class Music():
     def __init__(self, name):
@@ -20,3 +20,11 @@ class Music():
         pygame.mixer.music.load(self.name)
         pygame.mixer.music.play(0)
         
+class Image(pygame.sprite.Sprite):
+    def __init__(self, dir, name, x ,y, groups, sizeH = None, sizeW = None):
+        super().__init__(groups)
+        self.image = pygame.image.load(path.join(dir, name))
+        if sizeH != None and sizeW != None:
+            self.image = pygame.transform.scale(self.image, (sizeW, sizeH))
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)

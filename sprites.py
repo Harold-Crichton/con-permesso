@@ -1,14 +1,15 @@
 import pygame
 from settings import * 
+from utils import *
 vec = pygame.math.Vector2
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
-        self.image = pygame.Surface((20,40))
-        self.image.fill(GREEN)
-        self.rect = self.image.get_rect()
+        self.imageObj = Image(TEXTURE_FOLDER, "player.jpg", WIDTH / 2, HEIGHT - 25, (groups),220 , 190)
+        self.image = self.imageObj.image
         self.pos = vec(WIDTH / 2, HEIGHT - 25)
+        self.rect = self.imageObj.rect
         self.rect.midbottom = self.pos
 
         # Constants

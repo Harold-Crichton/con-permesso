@@ -11,6 +11,8 @@ class SplashScreen():
 
   def new(self):
     self.all_sprites = pygame.sprite.Group()
+    self.all_text = pygame.sprite.Group()
+    self.all_image = pygame.sprite.Group()
     self.is_playing = True
 
     # Set backgrounds
@@ -23,6 +25,13 @@ class SplashScreen():
     pygame.time.set_timer(self.DO_ANIM, 500)
     self.backgroundIndex = 0
 
+    # Set texts
+    defaultFont = pygame.font.get_default_font()
+    titleText = Text("Con Permesso", GOLD, 50, WIDTH / 2, 70, (self.all_sprites, self.all_text), defaultFont)
+    instructionText = Text("Premere SPAZIO per iniziare la partita", BLUE, 35, WIDTH / 2, 140, (self.all_sprites, self.all_text), defaultFont)
+
+    # Set Images
+    lordImg = Image(TEXTURE_FOLDER, "player.jpg", WIDTH / 2, HEIGHT / 2 + 50, (self.all_sprites, self.all_image))
     self.run()
 
   def run(self):
@@ -74,6 +83,11 @@ class Game():
     self.DO_ANIM = pygame.USEREVENT+1
     pygame.time.set_timer(self.DO_ANIM, 500)
     self.backgroundIndex = 0
+
+    # Mob timer
+    self.n_mob = 2
+    self.NEW_MOB = pygame.USEREVENT+2
+    pygame.time.set_timer(self.NEW_MOB, 1000)
 
     self.run()
 
