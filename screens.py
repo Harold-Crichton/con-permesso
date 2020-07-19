@@ -71,6 +71,8 @@ class Game():
     self.all_texts = pygame.sprite.Group()
     self.all_images = pygame.sprite.Group()
     self.all_mobs = pygame.sprite.Group()
+    self.player_bullets = pygame.sprite.Group()
+    self.enemy_bullets = pygame.sprite.Group()
 
     self.playerObj = Player((self.all_sprites))
     self.musicObj = Music("music1.ogg")
@@ -87,9 +89,10 @@ class Game():
 
     # Mob timer
     self.n_mob = 2
-    self.timeNewMob = 5000
+    self.timeNewMob = 6000
     self.NEW_MOB = pygame.USEREVENT+2
     pygame.time.set_timer(self.NEW_MOB, self.timeNewMob)
+    self.newMob(self.n_mob)
 
     # Score
     x = 100
@@ -131,6 +134,13 @@ class Game():
   def newMob(self, n):
     for _ in range (n):
       EnemyPipe((self.all_mobs, self.all_sprites))
+    
+  def newBullet(self, x, y, enemy = False):
+    if enemy:
+      Bullet((self.all_sprites, self.player_bullets), (x, y))
+    else:
+      Bullet((self.all_sprites, self.enemy_bullets),x , y, enemy)
+
   
 class GameOver():
   def __init__(self, main):
