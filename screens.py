@@ -7,12 +7,11 @@ from utils import *
 class SplashScreen():
   def __init__(self, main):
     self.main = main
-    self.new()
 
   def new(self):
     self.all_sprites = pygame.sprite.Group()
-    self.all_text = pygame.sprite.Group()
-    self.all_image = pygame.sprite.Group()
+    self.all_texts = pygame.sprite.Group()
+    self.all_images = pygame.sprite.Group()
     self.is_playing = True
 
     # Set backgrounds
@@ -26,12 +25,11 @@ class SplashScreen():
     self.backgroundIndex = 0
 
     # Set texts
-    defaultFont = pygame.font.get_default_font()
-    titleText = Text("Con Permesso", GOLD, 50, WIDTH / 2, 70, (self.all_sprites, self.all_text), defaultFont)
-    instructionText = Text("Premere SPAZIO per iniziare la partita", BLUE, 35, WIDTH / 2, 140, (self.all_sprites, self.all_text), defaultFont)
+    titleText = Text(TITLE, GOLD, 50, WIDTH / 2, 70, (self.all_sprites, self.all_texts), DEFAULT_FONT)
+    instructionText = Text("Premere SPAZIO per iniziare la partita", BLUE, 35, WIDTH / 2, 140, (self.all_sprites, self.all_texts), DEFAULT_FONT)
 
     # Set Images
-    lordImg = Image(TEXTURE_FOLDER, "player.jpg", WIDTH / 2, HEIGHT / 2 + 50, (self.all_sprites, self.all_image))
+    lordImg = Image(TEXTURE_FOLDER, "player.jpg", WIDTH / 2, HEIGHT / 2 + 50, (self.all_sprites, self.all_images))
     self.run()
 
   def run(self):
@@ -70,8 +68,11 @@ class Game():
   def new(self):
     self.is_playing = True
     self.all_sprites = pygame.sprite.Group()
+    self.all_texts = pygame.sprite.Group()
+    self.all_images = pygame.sprite.Group()
+    self.all_mobs = pygame.sprite.Group()
+
     self.playerObj = Player((self.all_sprites))
-    self.endLineObj = EndLine((self.all_sprites))
     self.musicObj = Music("music1.ogg")
     
     # Set backgrounds
@@ -86,9 +87,16 @@ class Game():
 
     # Mob timer
     self.n_mob = 2
+    self.timeNewMob = 5000
     self.NEW_MOB = pygame.USEREVENT+2
-    pygame.time.set_timer(self.NEW_MOB, 1000)
+    pygame.time.set_timer(self.NEW_MOB, self.timeNewMob)
 
+    # Score
+    x = 100
+    y = 25                                                                                              # h w
+    self.tartanBackground = Image(TEXTURE_FOLDER, "tartan.jpg", x, y + 15, (self.all_sprites, self.all_images), 70, 150)
+    self.scoreText = Text("Score 1000", GOLD, 17, x, y, (self.all_sprites, self.all_texts), DEFAULT_FONT) 
+    self.silverBulletText = Text("Silver bullet 100", SILVER, 15, x, y + 30, (self.all_sprites, self.all_texts), DEFAULT_FONT) 
     self.run()
 
   def run(self):
@@ -107,6 +115,8 @@ class Game():
         self.backgroundIndex += 1
         if self.backgroundIndex == len(self.BACKGROUND_FRAMES):
           self.backgroundIndex = 0
+      elif e.type == self.NEW_MOB:
+        self.newMob(self.n_mob)
 
   def update(self):
     self.all_sprites.update()
@@ -114,7 +124,13 @@ class Game():
   def draw(self):
     self.main.screen.blit(self.BACKGROUND_FRAMES[self.backgroundIndex], (0,0))
     self.all_sprites.draw(self.main.screen)
+    self.all_images.draw(self.main.screen)
+    self.all_texts.draw(self.main.screen)
     pygame.display.flip()
+  
+  def newMob(self, n):
+    for _ in range (n):
+      EnemyPipe((self.all_mobs, self.all_sprites))
   
 class GameOver():
   def __init__(self, main):

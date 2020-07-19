@@ -11,7 +11,7 @@ class Text(pygame.sprite.Sprite):
         self.font = pygame.font.Font(fontName, size)
         self.image = self.font.render(msg, False, color)
         self.rect = self.image.get_rect()
-        self.rect.midtop = (x, y)
+        self.rect.center = (x, y)
 
 class Music():
     def __init__(self, name):

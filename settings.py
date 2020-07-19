@@ -3,8 +3,9 @@ from os import path
 
 HEIGHT = 800
 WIDTH = 800
-FPS = 30
-TITLE = "Con Permesso"
+FPS = 60
+TITLE = "Lord Harold's Game"
+DEFAULT_FONT = pygame.font.get_default_font()
 
 # Source Folders
 TEXTURE_FOLDER = path.join(path.dirname(__file__), "src", "textures")
@@ -20,3 +21,4 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 GOLD = (201, 176, 55)
+SILVER = (192,192,192)

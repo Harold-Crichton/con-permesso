@@ -1,12 +1,13 @@
 import pygame
 from settings import * 
 from utils import *
+from random import SystemRandom
 vec = pygame.math.Vector2
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, groups):
         super().__init__(groups)
-        self.imageObj = Image(TEXTURE_FOLDER, "player.jpg", WIDTH / 2, HEIGHT - 25, (groups),220 , 190)
+        self.imageObj = Image(TEXTURE_FOLDER, "player.jpg", WIDTH / 2, HEIGHT - 25, (groups), 110, 95)
         self.image = self.imageObj.image
         self.pos = vec(WIDTH / 2, HEIGHT - 25)
         self.rect = self.imageObj.rect
@@ -46,6 +47,7 @@ class EnemyPipe(pygame.sprite.Sprite):
         self.image = pygame.Surface((50,50))
         self.image.fill(RED)
         self.rect = self.image.get_rect()
+        self.rect.x = SystemRandom().randint(0, WIDTH - self.rect.width)
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, groups, x, y, enemy = False):
@@ -58,11 +60,3 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.pos = vec(x, y)
         self.rect.center = self.pos
-
-class EndLine(pygame.sprite.Sprite):
-    def __init__(self, groups):
-        super().__init__(groups)
-        self.image = pygame.Surface((WIDTH,10))
-        self.image.fill(BLUE)
-        self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH / 2, HEIGHT - 20)
