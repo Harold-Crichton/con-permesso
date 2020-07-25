@@ -13,10 +13,10 @@ class Main():
         self.run()
 
     def run(self):
-        # splashObj = SplashScreen(self)
+        splashObj = SplashScreen(self)
         gameObj = Game(self)
         gameOverObj = GameOver(self) 
-        # splashObj.new()
+        splashObj.new()
         while self.is_running:
             gameObj.new()
             if gameObj.is_playing:

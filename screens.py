@@ -51,7 +51,7 @@ class SplashScreen():
       elif e.type == pygame.KEYDOWN:
         if e.key == pygame.K_SPACE:
           self.is_playing = False
-
+      
   def update(self):
     self.all_sprites.update()
 
@@ -74,7 +74,7 @@ class Game():
     self.player_bullets = pygame.sprite.Group()
     self.enemy_bullets = pygame.sprite.Group()
 
-    self.playerObj = Player((self.all_sprites))
+    self.playerObj = Player((self.all_sprites), self)
     self.musicObj = Music("music1.ogg")
     
     # Set backgrounds
@@ -90,16 +90,18 @@ class Game():
     # Mob timer
     self.n_mob = 2
     self.timeNewMob = 6000
-    self.NEW_MOB = pygame.USEREVENT+2
+    self.NEW_MOB = pygame.USEREVENT+27
     pygame.time.set_timer(self.NEW_MOB, self.timeNewMob)
     self.newMob(self.n_mob)
 
     # Score
+    self.PGBULLET = 0
     x = 100
-    y = 25                                                                                              # h w
+    y = 25                                                                                        
     self.tartanBackground = Image(TEXTURE_FOLDER, "tartan.jpg", x, y + 15, (self.all_sprites, self.all_images), 70, 150)
     self.scoreText = Text("Score 1000", GOLD, 17, x, y, (self.all_sprites, self.all_texts), DEFAULT_FONT) 
-    self.silverBulletText = Text("Silver bullet 100", SILVER, 15, x, y + 30, (self.all_sprites, self.all_texts), DEFAULT_FONT) 
+    self.silverBulletText = Text(f"Silver bullet {self.PGBULLET}", SILVER, 15, x, y + 30, (self.all_sprites, self.all_texts), DEFAULT_FONT) 
+
     self.run()
 
   def run(self):
@@ -122,8 +124,9 @@ class Game():
         self.newMob(self.n_mob)
 
   def update(self):
+    self.silverBulletText.update_text(f"Silver bullet {self.PGBULLET}", SILVER, 15, 100, 55, (self.all_sprites, self.all_texts), DEFAULT_FONT)
     self.all_sprites.update()
-
+  
   def draw(self):
     self.main.screen.blit(self.BACKGROUND_FRAMES[self.backgroundIndex], (0,0))
     self.all_sprites.draw(self.main.screen)
@@ -133,13 +136,13 @@ class Game():
   
   def newMob(self, n):
     for _ in range (n):
-      EnemyPipe((self.all_mobs, self.all_sprites))
+      EnemyPipe((self.all_mobs, self.all_sprites), self)
     
   def newBullet(self, x, y, enemy = False):
     if enemy:
-      Bullet((self.all_sprites, self.player_bullets), (x, y))
+      EnemyBullet((self.all_sprites, self.player_bullets), (x, y))
     else:
-      Bullet((self.all_sprites, self.enemy_bullets),x , y, enemy)
+      PlayerBullet((self.all_sprites, self.enemy_bullets), (x, y))
 
   
 class GameOver():
