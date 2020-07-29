@@ -20,6 +20,7 @@ class SplashScreen():
     for i in range(0, n_backgrounds):
       img = path.join(BACKGROUNDS_FOLDER, f'background{i}.png')
       self.BACKGROUND_FRAMES.append(pygame.image.load(img))
+      
     self.DO_ANIM = pygame.USEREVENT+1
     pygame.time.set_timer(self.DO_ANIM, 500)
     self.backgroundIndex = 0
@@ -83,6 +84,7 @@ class Game():
     for i in range(0, n_backgrounds):
       img = path.join(BACKGROUNDS_FOLDER, f'background{i}.png')
       self.BACKGROUND_FRAMES.append(pygame.image.load(img))
+
     self.DO_ANIM = pygame.USEREVENT+1
     pygame.time.set_timer(self.DO_ANIM, 500)
     self.backgroundIndex = 0
@@ -90,9 +92,11 @@ class Game():
     # Mob timer
     self.n_mob = 2
     self.timeNewMob = 6000
-    self.NEW_MOB = pygame.USEREVENT+27
+    self.NEW_MOB = pygame.USEREVENT+2
     pygame.time.set_timer(self.NEW_MOB, self.timeNewMob)
-    self.newMob(self.n_mob)
+    self.newMob()
+
+    self.RELOAD = pygame.USEREVENT+3
 
     # Score
     self.PGBULLET = 0
@@ -121,7 +125,9 @@ class Game():
         if self.backgroundIndex == len(self.BACKGROUND_FRAMES):
           self.backgroundIndex = 0
       elif e.type == self.NEW_MOB:
-        self.newMob(self.n_mob)
+        self.newMob()
+      elif e.type == self.RELOAD:
+        self.playerObj.bullet_charged = True
 
   def update(self):
     self.silverBulletText.update_text(f"Silver bullet {self.PGBULLET}", SILVER, 15, 100, 55, (self.all_sprites, self.all_texts), DEFAULT_FONT)
@@ -134,15 +140,12 @@ class Game():
     self.all_texts.draw(self.main.screen)
     pygame.display.flip()
   
-  def newMob(self, n):
-    for _ in range (n):
+  def newMob(self):
+    for _ in range (self.n_mob):
       EnemyPipe((self.all_mobs, self.all_sprites), self)
     
   def newBullet(self, x, y, enemy = False):
-    if enemy:
-      EnemyBullet((self.all_sprites, self.player_bullets), (x, y))
-    else:
-      PlayerBullet((self.all_sprites, self.enemy_bullets), (x, y))
+    Bullet((self.all_sprites, self.player_bullets), (x, y), enemy)
 
   
 class GameOver():
