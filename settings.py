@@ -1,7 +1,7 @@
 import pygame
 from os import path
 
-HEIGHT = 800
+HEIGHT = 700
 WIDTH = 800
 FPS = 60
 TITLE = "Lord Harold's Game"

@@ -10,6 +10,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__(groups)
         self.game = game
         self.pos = vec(WIDTH / 2, HEIGHT - 25)
+        self.health = 100
         
         self.image = loadImage(TEXTURE_FOLDER, "player.jpg", 110, 95)
 
@@ -50,8 +51,16 @@ class Player(pygame.sprite.Sprite):
         
         self.rect.midbottom = self.pos
 
+        hits = pygame.sprite.spritecollide(self, self.game.enemy_bullets, False)
+        hits += pygame.sprite.spritecollide(self, self.game.all_mobs, False)
+        for hit in hits:
+            self.health -= hit.damage
+            hit.kill()
+        if self.health <= 0:
+            self.kill()
+            self.game.is_playing = False
 
-class EnemyPipe(pygame.sprite.Sprite):
+class Enemy(pygame.sprite.Sprite):
     def __init__(self, groups, game):
         super().__init__(groups)
         self.image = pygame.Surface((50,50))
@@ -60,6 +69,7 @@ class EnemyPipe(pygame.sprite.Sprite):
         self.rect.x = SystemRandom().randint(0, WIDTH - self.rect.width)
         self.speed = 1
         self.health = 50
+        self.damage = 25
         self.game = game
 
         # Timer
@@ -77,6 +87,14 @@ class EnemyPipe(pygame.sprite.Sprite):
         if(self.rect.top > HEIGHT):
             self.rect.top = 0
 
+        hits = pygame.sprite.spritecollide(self, self.game.player_bullets, False)
+        for hit in hits:
+            self.health -= hit.damage
+            hit.kill()
+        if self.health <= 0:
+            self.game.enemyKilled += 1
+            self.kill()
+
     def setSpeed(self, speed):
         self.speed = speed
 
@@ -90,7 +108,7 @@ class Bullet(pygame.sprite.Sprite):
 
         self.circle_size = 14
         self.image = pygame.Surface((self.circle_size,self.circle_size))
-        self.circle = pygame.draw.circle(self.image, GOLD, (self.circle_size // 2, self.circle_size // 2), 7)
+        self.circle = pygame.draw.circle(self.image, (WHITE if not enemyBullet else GOLD), (self.circle_size // 2, self.circle_size // 2), 7)
 
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
@@ -98,6 +116,7 @@ class Bullet(pygame.sprite.Sprite):
 
         # Constants
         self.SPEED = 1 * (-1 if not enemyBullet else 1)
+        self.damage = 25
 
         # Movement
         self.acc = vec(0, 0)

@@ -97,6 +97,8 @@ class Game():
     self.newMob()
 
     self.RELOAD = pygame.USEREVENT+3
+    self.enemyKilled = 0
+    self.nextLevel = 15
 
     # Score
     self.PGBULLET = 0
@@ -132,6 +134,10 @@ class Game():
   def update(self):
     self.silverBulletText.update_text(f"Silver bullet {self.PGBULLET}", SILVER, 15, 100, 55, (self.all_sprites, self.all_texts), DEFAULT_FONT)
     self.all_sprites.update()
+
+    # To do boss
+    if self.enemyKilled >= self.nextLevel:
+      pass
   
   def draw(self):
     self.main.screen.blit(self.BACKGROUND_FRAMES[self.backgroundIndex], (0,0))
@@ -142,10 +148,12 @@ class Game():
   
   def newMob(self):
     for _ in range (self.n_mob):
-      EnemyPipe((self.all_mobs, self.all_sprites), self)
+      Enemy((self.all_mobs, self.all_sprites), self)
     
   def newBullet(self, x, y, enemy = False):
-    Bullet((self.all_sprites, self.player_bullets), (x, y), enemy)
+    Bullet((self.all_sprites, self.player_bullets if not enemy else self.enemy_bullets ), (x, y), enemy)
+  
+  #def changeDifficulty(self, )
 
   
 class GameOver():
