@@ -9,7 +9,7 @@ class Main():
         pygame.display.set_caption(TITLE)
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
-        self.is_running = True
+        self.is_playing = True
         self.run()
 
     def run(self):
@@ -17,10 +17,9 @@ class Main():
         gameObj = Game(self)
         gameOverObj = GameOver(self) 
         splashObj.new()
-        while self.is_running:
+        while self.is_playing:
             gameObj.new()
-            if gameObj.is_playing:
-                gameOverObj.new()
+            gameOverObj.new()
 
 if __name__ == "__main__":
     mainOBj = Main()

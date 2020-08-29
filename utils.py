@@ -19,8 +19,8 @@ class Music():
         pygame.mixer.init()
         pygame.mixer.music.load(self.name)
         pygame.mixer.music.play(0)
-
-# // -------------------------
+        
+# --------------------------//
 #           IMAGE 
 # --------------------------// 
         

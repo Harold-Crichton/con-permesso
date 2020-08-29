@@ -13,6 +13,7 @@ SOUNDS_FOLDER = path.join(path.dirname(__file__), "src", "sounds")
 BACKGROUNDS_FOLDER = path.join(TEXTURE_FOLDER, "backgrounds")
 BOSSES_FOLDER = path.join(TEXTURE_FOLDER, "bosses")
 PIPES_FOLDER = path.join(TEXTURE_FOLDER, "pipes")
+GAMEOVER_FOLDER = path.join(TEXTURE_FOLDER, "game over")
 
 # Colors
 WHITE = (255, 255, 255)
